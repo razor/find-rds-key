@@ -3,17 +3,6 @@
 import sys
 import string
 
-'''
-def rshift16(val, n):
-	lsb = val & ((1 << n) - 1)
-	val = (val >> n) | (lsb << (16 - n))
-	return val
-
-def lshift16(val, n):
-	msb = val & ~(0xFFFF >> n)
-	val = (val << n) | msb
-	return val
-'''
 
 MAX_BITS = 16
 
@@ -45,21 +34,6 @@ keyrange = range(0, 0x100)
 
 decloc = []
 declocset = []
-
-'''
-def findkey(i, encloc, loccur):
-	for rbit in rrange:
-		for sbit in srange:
-			for key in keyrange:
-				locdec = RDSDecrypt(encloc[i], rbit, sbit, key)
-				if i == 0:
-					loccur = locdec
-					print i, hex(rbit), hex(sbit), hex(key), hex(loccur)
-				if (i+1) < len(encloc):
-					ret = findkey(i+1, encloc, loccur)
-				if loccur == locdec:
-					print 'Found key: ', i, hex(encloc[i]), hex(locdec), hex(rbit), hex(sbit), hex(key)
-'''
 
 def decryptloc(i, encloc):
 	dec = []
