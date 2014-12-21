@@ -28,8 +28,8 @@ def RDSDecrypt(locbe, rrbit, sbit, key):
 	loc = rol(locrr, rrbit, MAX_BITS)
 	return loc
 
-rrange = range(0, 0xF)
-srange = range(0, 9)
+rrange = range(0, 0x10)
+srange = range(0, 0x9)
 keyrange = range(0, 0x100)
 
 decloc = []
@@ -50,16 +50,16 @@ def decryptloc(i, encloc):
 
 def findcommon(declocset):
 	common = declocset[0]
-	for i in range(1, len(declocset)-1):
+	for i in range(1, len(declocset)):
 		common = common & declocset[i]
 	#print common, len(common)
 	return common
 
 def findkeys(decloc, commloc):
-	for i in range(0, len(decloc)-1):
+	for i in range(0, len(decloc)):
 		for loc in decloc[i]:
 			if commloc == loc[0]:
-				print 'Found possible key ID %d: rbit: 0x%x\tsbit: 0x%x\tkey: 0x%x'%(loc[1], loc[2], loc[3], loc[4])
+				print 'Found possible key ID %d: rbit: 0x%x\tsbit: 0x%x\tkey: 0x%x\tlocdec:%x'%(loc[1], loc[2], loc[3], loc[4], loc[0])
 
 
 if __name__ == "__main__":
@@ -77,9 +77,10 @@ if __name__ == "__main__":
 		decryptloc(i, encloc[i])
 	common = findcommon(declocset)
 	if len(common) == 1:
-		commloc = common.pop()
-		print 'Found common location code: 0x%x'%commloc
-		findkeys(decloc, commloc)
+		while len(common) > 0:
+			commloc = common.pop()
+			print 'Found common location code: 0x%x'%commloc
+			findkeys(decloc, commloc)
 	else:
 		print "Found %d common location codes, not 1. Can't find any keys."%len(common)
 
